@@ -1,0 +1,16 @@
+[package]
+name = "rusting2d"
+version = "0.0.1"
+edition = "2021"
+authors = ["LuanOnCode <luangotardodeveloper@gmail.com>"]
+description = "A simple 2D game engine based on wgpu and winit."
+license = "MPL-2.0"
+repository = "https://github.com/LuanOldCode/Rusting2D"
+
+[dependencies]
+winit = "0.28"
+wgpu = "0.16"
+
+[lib]
+name = "rusting2d"
+path = "src/lib.rs"
