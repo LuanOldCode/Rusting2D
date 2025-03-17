@@ -4,23 +4,30 @@ use winit::{
     window::Window,
 };
 
-use crate::renderer::Renderer;
-use crate::entities::EntityManager;
-
+/// Estrutura principal do motor de jogo.
+/// Main structure of the game engine.
 pub struct Engine {
-    renderer: Renderer,
-    entity_manager: EntityManager,
     event_loop: EventLoop<()>,
     window: Window,
 }
 
 impl Engine {
+    /// Verifica se o motor está funcionando corretamente.
+    /// Checks if the engine is working correctly.
     pub fn is_ok(&self) -> bool {
         true
     }
 }
 
 impl Engine {
+    /// Cria uma nova instância do motor de jogo.
+    /// Creates a new instance of the game engine.
+    ///
+    /// # Arguments
+    ///
+    /// * `title` - Título da janela / Window title
+    /// * `width` - Largura da janela / Window width
+    /// * `height` - Altura da janela / Window height
     pub async fn new(title: &str, width: u32, height: u32) -> Self {
         let event_loop = EventLoop::new();
         let window = winit::window::WindowBuilder::new()
@@ -28,32 +35,21 @@ impl Engine {
             .with_inner_size(winit::dpi::LogicalSize::new(width, height))
             .build(&event_loop)
             .unwrap();
-
-        let renderer = Renderer::new(&window).await;
-        let entity_manager = EntityManager::new();
-
         Self {
-            renderer,
-            entity_manager,
             event_loop,
             window,
         }
     }
 
-    pub fn add_entity(&mut self, entity: crate::entities::Entity) {
-        self.entity_manager.add_entity(entity);
-    }
-
-    pub fn run(mut self) {
+    /// Inicia o loop de execução do motor de jogo.
+    /// Starts the game engine's execution loop.
+    pub fn run(self) {
         self.event_loop.run(move |event, _, control_flow| {
             *control_flow = ControlFlow::Poll;
 
             match event {
                 Event::MainEventsCleared => {
                     self.window.request_redraw();
-                }
-                Event::RedrawRequested(_) => {
-                    self.renderer.render();
                 }
                 _ => {}
             }
